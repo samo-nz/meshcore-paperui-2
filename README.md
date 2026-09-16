@@ -3,8 +3,8 @@
 <p align="center">
   A paper-like handheld MeshCore communicator for the LilyGo T5 ePaper S3 Pro<br>
   This is a modified version of the original project with a new Meshcore base and GREATLY improved touch screen response.
-  All coded from ChatGPT and tested locally. The Bluetooth functionality has been seperated out to be a separate boot mode so there is either BT mode or UI.
-  There is also an improved lock screen requiring a long press of the BOOT button and a quick start preset manager with name entry.
+  All coded from ChatGPT and tested locally. The Bluetooth functionality has been seperated out to be a separate boot mode so there is either BT mode or UI.<br>
+  There is also an improved lock screen requiring a long press of the BOOT button and a quick start preset manager with name entry.<br>
   All presets available in Meshcore are now listed
 </p>
 
@@ -95,11 +95,6 @@ The interface is designed around the strengths of e-paper:
 ## Install
 
 ### Local Build
-
-```bash
-# PlatformIO environment name: t5-epaper
-uvx platformio run -e t5-epaper
-```
 
 Flash over USB:
 
