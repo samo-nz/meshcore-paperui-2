@@ -1,0 +1,54 @@
+#pragma once
+#include <stdint.h>
+#include "ui_kit.h"   // ui::kit::Font
+
+// Mono-backend-only entry points (the LVGL backend has lv_timer_handler instead).
+// main_wio builds a screen with the ui::kit facade, then drives it with these.
+namespace ui::kit::mono {
+
+// Draw / measure Lemon text directly, for app-painted chrome like the status bar
+// title (same font + glyphs as node labels, so diacritics render).
+void text(int x, int y, const char* s, Font f);
+int  text_width(const char* s, Font f);
+
+// Scale the whole mono UI up for a larger panel (1 = native 250x122 Wio). Fonts
+// and, since rows are content-sized, the layout grow proportionally.
+void set_ui_scale(int s);
+
+void reset();                 // drop the current node tree (start a new screen)
+void render();                // layout + draw the tree to the e-ink (paged)
+void redraw();                // force a redraw on next render (e.g. clock ticked)
+
+// Global colour inversion (dark mode). When on, foreground/background swap so
+// the panel paints white-on-black. fg()/bg() return the current GxEPD colours so
+// app-drawn chrome (the status bar) tracks the same scheme.
+void set_invert(bool on);
+bool get_invert();
+uint16_t fg();                // foreground (text/lines) colour for current mode
+uint16_t bg();                // background (fill) colour for current mode
+
+// Fixed top status bar (clock / GPS / battery …). The engine reserves `h` px at
+// the top and calls fn() each render to paint it (fn draws via the display +
+// reads the model); screen content lives/scrolls below it.
+typedef void (*StatusbarFn)(int w, int h);
+void set_statusbar(int h, StatusbarFn fn);
+
+// Fixed bottom action bar — always visible, never scrolls (mirrors the status
+// bar at the top). The engine sizes it to the Title font, paints it as a solid
+// bar with `label` centered, and routes the Enter button to fn(user).
+// Pass label=nullptr to clear; reset() (a new screen) clears it automatically.
+void set_footer(const char* label, ui::kit::Cb fn, void* user);
+void tick(uint32_t now_ms);   // fire any due timers
+void feed_key(char key);      // input: 'U'/'D' move focus, 'E' activate, 'B' back
+
+// Transient banner overlay drawn near the top of the screen, auto-expiring after
+// `ms`. Backs ui::toast::show() on the mono panel.
+void toast(const char* msg, uint32_t ms);
+
+// Minimal screen stack. A screen is a builder function that constructs its tree
+// with the ui::kit facade (it must NOT call reset() — go()/back() handle that).
+typedef void (*ScreenFn)();
+void go(ScreenFn fn);         // push + build + draw a new screen
+void back();                  // pop to the previous screen
+
+} // namespace ui::kit::mono
