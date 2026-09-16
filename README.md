@@ -1,18 +1,11 @@
-<h1 align="center">MeshCore T5 ePaper S3 Pro</h1>
+<h1 align="center">MeshCore T5 ePaper S3 Pro - ChatGPT update</h1>
 
 <p align="center">
-  A paper-like handheld MeshCore communicator for the LilyGo T5 ePaper S3 Pro
-</p>
-
-<p align="center">
-  <img alt="Device" src="https://img.shields.io/badge/device-LilyGo%20T5%20ePaper%20Pro-444444" />
-  <img alt="Display" src="https://img.shields.io/badge/display-4.7%22%20e--paper-d6d6d1" />
-  <img alt="Connectivity" src="https://img.shields.io/badge/connectivity-LoRa%20mesh-6b6b67" />
-  <a href="https://dz0ny.github.io/meshcore-t5-epaper-s3-pro/"><img alt="Install" src="https://img.shields.io/badge/install-browser%20flasher-2b2b28" /></a>
-</p>
-
-<p align="center">
-  <img src="./assets/main.jpeg" alt="LilyGo T5 ePaper S3 Pro home screen" width="320" />
+  A paper-like handheld MeshCore communicator for the LilyGo T5 ePaper S3 Pro<br>
+  This is a modified version of the original project with a new Meshcore base and GREATLY improved touch screen response.
+  All coded from ChatGPT and tested locally. The Bluetooth functionality has been seperated out to be a separate boot mode so there is either BT mode or UI.
+  There is also an improved lock screen requiring a long press of the BOOT button and a quick start preset manager with name entry.
+  All presets available in Meshcore are now listed
 </p>
 
 <p align="center">
@@ -45,9 +38,6 @@ the welcome screen will not recur. Selecting a new preset/name saves it and
 restarts so the mesh radio applies the changes. The listed frequencies are
 examples, not regional regulatory advice: use only settings allowed at your
 location and matching the other nodes on your mesh.
-
-This firmware is a hardware-test build. A successful compilation does not yet
-verify BLE pairing, battery life, or every radio preset on a physical device.
 
 Without an SD card, this fork stores its identity and settings in SPIFFS.
 
@@ -104,16 +94,6 @@ The interface is designed around the strengths of e-paper:
 
 ## Install
 
-### Browser Flasher
-
-The easiest way to install the latest build is through the web flasher:
-
-[Open Web Flasher](https://dz0ny.github.io/meshcore-t5-epaper-s3-pro/)
-
-Use Chrome or Edge and connect the device with a USB data cable.
-
-If the board is not detected, hold `BOOT` and tap `RESET`.
-
 ### Local Build
 
 ```bash
@@ -124,9 +104,9 @@ uvx platformio run -e t5-epaper
 Flash over USB:
 
 ```bash
-# PlatformIO environment name: t5-epaper
-uvx platformio run -e t5-epaper -t upload
+# esptool.py --chip esp32s3 --port /dev/ttyACM0 write_flash 0x10000 meshcore-paperui-v0.3.1.29-mc1.17.1-t5-epaper.bin 
 ```
+Change /dev/ttyACM0 to the correct port on your PC
 
 ## Hardware
 
@@ -145,6 +125,6 @@ Product page: [lilygo.cc/en-us/products/t5-e-paper-s3-pro](https://lilygo.cc/en-
 This project is not trying to be a general-purpose tablet UI.
 It is a focused mesh communicator with a paper-like display, tuned for clarity, simplicity, and practical field use.
 
-## Repository
+## ORIGINAL Repository
 
 - GitHub: [dz0ny/meshcore-t5-epaepr-pro](https://github.com/dz0ny/meshcore-t5-epaepr-pro)
